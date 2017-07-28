@@ -1,11 +1,11 @@
-package net.zoranpavlovic.orachat;
+package net.zoranpavlovic.orachat.core;
 
 import android.app.Application;
 
 import net.zoranpavlovic.orachat.core.di.component.DaggerNetComponent;
-import net.zoranpavlovic.orachat.di.component.NetComponent;
-import net.zoranpavlovic.orachat.di.module.AppModule;
-import net.zoranpavlovic.orachat.di.module.NetModule;
+import net.zoranpavlovic.orachat.core.di.component.NetComponent;
+import net.zoranpavlovic.orachat.core.di.module.AppModule;
+import net.zoranpavlovic.orachat.core.di.module.NetModule;
 
 /**
  * Created by Zoran on 28/07/2017.

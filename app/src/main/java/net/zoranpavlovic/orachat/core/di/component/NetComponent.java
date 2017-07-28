@@ -1,7 +1,7 @@
-package net.zoranpavlovic.orachat.di.component;
+package net.zoranpavlovic.orachat.core.di.component;
 
-import net.zoranpavlovic.orachat.di.module.AppModule;
-import net.zoranpavlovic.orachat.di.module.NetModule;
+import net.zoranpavlovic.orachat.core.di.module.AppModule;
+import net.zoranpavlovic.orachat.core.di.module.NetModule;
 
 import javax.inject.Singleton;
 

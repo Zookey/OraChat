@@ -1,4 +1,4 @@
-package net.zoranpavlovic.orachat.di.module;
+package net.zoranpavlovic.orachat.core.di.module;
 
 import android.app.Application;
 
