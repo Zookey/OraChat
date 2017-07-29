@@ -23,9 +23,6 @@ public class AccountActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 
-    @Inject
-    RegisterAccountPresenterImpl registerPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
