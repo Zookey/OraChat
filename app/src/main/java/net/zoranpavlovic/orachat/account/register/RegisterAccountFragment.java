@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import net.zoranpavlovic.orachat.R;
+import net.zoranpavlovic.orachat.account.AccountActivity;
 import net.zoranpavlovic.orachat.core.App;
 
 import javax.inject.Inject;
@@ -49,7 +50,8 @@ public class RegisterAccountFragment extends Fragment implements RegisterAccount
         DaggerRegisterAccountComponent.builder()
                 .netComponent(((App) getActivity().getApplicationContext()).getNetComponent())
                 .registerAccountModule(new RegisterAccountModule(this))
-                .build();
+                .build()
+                .inject(this);
 
         return v;
     }
@@ -64,7 +66,7 @@ public class RegisterAccountFragment extends Fragment implements RegisterAccount
     }
 
     private boolean validate(){
-        if(getName() != null && getEmail() != null && getPassword() != null&& getConfirm() != null && getPassword().equals(getConfirm())){
+        if(getName().isEmpty() == false && getEmail().isEmpty() == false && getPassword().isEmpty() == false && getConfirm().isEmpty() == false && getPassword().equals(getConfirm())){
             return  true;
         }
         return false;

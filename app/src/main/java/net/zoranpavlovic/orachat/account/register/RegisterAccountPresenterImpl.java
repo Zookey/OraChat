@@ -3,6 +3,7 @@ package net.zoranpavlovic.orachat.account.register;
 import android.util.Log;
 
 import net.zoranpavlovic.orachat.account.AccountService;
+import net.zoranpavlovic.orachat.core.di.FragmentScoped;
 
 import javax.inject.Inject;
 
@@ -34,11 +35,11 @@ public class RegisterAccountPresenterImpl implements RegisterAccountPresenter{
         compositeDisposable.add(retrofit.create(AccountService.class).register(name, email, password, confirm)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribeWith(new DisposableSubscriber<Response>() {
+                .subscribeWith(new DisposableSubscriber<Response<AccountResponse>>() {
                     @Override
-                    public void onNext(Response response) {
+                    public void onNext(Response<AccountResponse> response) {
                         if(view != null){
-                            view.onRegisterAccountSuccess((AccountResponse) response.body());
+                            view.onRegisterAccountSuccess(response.body());
                             Log.d("TAG", response.headers().toString());
                         }
                     }

@@ -7,7 +7,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import net.zoranpavlovic.orachat.R;
+import net.zoranpavlovic.orachat.account.register.DaggerRegisterAccountComponent;
 import net.zoranpavlovic.orachat.account.register.RegisterAccountFragment;
+import net.zoranpavlovic.orachat.account.register.RegisterAccountModule;
+import net.zoranpavlovic.orachat.account.register.RegisterAccountPresenterImpl;
+import net.zoranpavlovic.orachat.core.App;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,6 +21,9 @@ import butterknife.ButterKnife;
 public class AccountActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
+
+    @Inject
+    RegisterAccountPresenterImpl registerPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +46,15 @@ public class AccountActivity extends AppCompatActivity {
 
     private void showFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        RegisterAccountFragment registerAccountFragment = new RegisterAccountFragment();
         if (fragmentManager != null) {
             FragmentTransaction ft = fragmentManager.beginTransaction();
             if (ft != null) {
-                ft.replace(R.id.frame_layout, new RegisterAccountFragment());
+                ft.replace(R.id.frame_layout, registerAccountFragment);
                 ft.commit();
             }
+
+
         }
     }
 }

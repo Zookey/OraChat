@@ -16,5 +16,5 @@ public interface AccountService {
 
     @FormUrlEncoded
     @POST("users")
-    Flowable<Response> register(@Field("name") String name, @Field("email") String email, @Field("password") String password, @Field("password_confirmation") String confirm);
+    Flowable<Response<AccountResponse>> register(@Field("name") String name, @Field("email") String email, @Field("password") String password, @Field("password_confirmation") String confirm);
 }

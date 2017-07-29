@@ -1,6 +1,7 @@
 package net.zoranpavlovic.orachat.account.register;
 
 import net.zoranpavlovic.orachat.core.di.CustomScope;
+import net.zoranpavlovic.orachat.core.di.FragmentScoped;
 
 import dagger.Module;
 import dagger.Provides;
@@ -20,8 +21,8 @@ public class RegisterAccountModule {
 
 
     @Provides
-    @CustomScope
-    RegisterAccountView providesGetSurveyView(){
+    @FragmentScoped
+    RegisterAccountView providesRegisterAccountView(){
         return view;
     }
 }
