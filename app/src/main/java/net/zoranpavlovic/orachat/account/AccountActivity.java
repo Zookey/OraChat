@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import net.zoranpavlovic.orachat.R;
+import net.zoranpavlovic.orachat.account.login.LoginAccountFragment;
 import net.zoranpavlovic.orachat.account.register.DaggerRegisterAccountComponent;
 import net.zoranpavlovic.orachat.account.register.RegisterAccountFragment;
 import net.zoranpavlovic.orachat.account.register.RegisterAccountModule;
@@ -47,14 +48,13 @@ public class AccountActivity extends AppCompatActivity {
     private void showFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         RegisterAccountFragment registerAccountFragment = new RegisterAccountFragment();
+        LoginAccountFragment loginAccountFragment = new LoginAccountFragment();
         if (fragmentManager != null) {
             FragmentTransaction ft = fragmentManager.beginTransaction();
             if (ft != null) {
-                ft.replace(R.id.frame_layout, registerAccountFragment);
+                ft.replace(R.id.frame_layout, loginAccountFragment);
                 ft.commit();
             }
-
-
         }
     }
 }
