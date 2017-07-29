@@ -3,12 +3,17 @@ package net.zoranpavlovic.orachat.account.register;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import net.zoranpavlovic.orachat.R;
+import net.zoranpavlovic.orachat.core.App;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,7 +22,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegisterAccountFragment extends Fragment {
+public class RegisterAccountFragment extends Fragment implements RegisterAccountView {
 
 
     @BindView(R.id.et_name) EditText etName;
@@ -25,6 +30,8 @@ public class RegisterAccountFragment extends Fragment {
     @BindView(R.id.et_password) EditText etPassword;
     @BindView(R.id.et_confirm) EditText etConfirm;
 
+    @Inject
+    RegisterAccountPresenterImpl registerPresenter;
 
     public RegisterAccountFragment() {
         // Required empty public constructor
@@ -39,13 +46,53 @@ public class RegisterAccountFragment extends Fragment {
 
         ButterKnife.bind(this, v);
 
+        DaggerRegisterAccountComponent.builder()
+                .netComponent(((App) getActivity().getApplicationContext()).getNetComponent())
+                .registerAccountModule(new RegisterAccountModule(this))
+                .build();
+
         return v;
     }
 
     @OnClick(R.id.btn_register)
-    private  void registerAccountClick(){
-
+    void registerAccountClick(){
+        if(validate()) {
+            registerPresenter.register(getName(), getEmail(), getPassword(), getConfirm());
+        } else{
+            Toast.makeText(getActivity(), "Not valid information for account!", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    private boolean validate(){
+        if(getName() != null && getEmail() != null && getPassword() != null&& getConfirm() != null && getPassword().equals(getConfirm())){
+            return  true;
+        }
+        return false;
+    }
 
+    private String getName(){
+        return etName.getText().toString();
+    }
+
+    private String getEmail(){
+        return etEmail.getText().toString();
+    }
+
+    private String getPassword(){
+        return etPassword.getText().toString();
+    }
+
+    private String getConfirm(){
+        return etConfirm.getText().toString();
+    }
+
+    @Override
+    public void onRegisterAccountSuccess(AccountResponse accountResponse) {
+        Log.d("TAG", accountResponse.toString());
+    }
+
+    @Override
+    public void onRegisterAccountError(String error) {
+        Log.d("TAG", error);
+    }
 }

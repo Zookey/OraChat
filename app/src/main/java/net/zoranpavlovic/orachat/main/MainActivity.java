@@ -7,11 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import net.zoranpavlovic.orachat.R;
-import net.zoranpavlovic.orachat.account.AccountFragment;
+import net.zoranpavlovic.orachat.account.view.AccountFragment;
 import net.zoranpavlovic.orachat.chats.ChatsFragment;
 
 import butterknife.BindView;
@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.bottom_navigation) BottomNavigationView bottomNavigationView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,18 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        setUpToolbar();
+
         setUpBottomNavigationMenu();
 
+    }
+
+
+    private void setUpToolbar() {
+        toolbar.setTitle(getResources().getString(R.string.app_name));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private void setUpBottomNavigationMenu() {

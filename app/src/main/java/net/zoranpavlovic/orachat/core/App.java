@@ -21,7 +21,7 @@ public class App extends Application {
 
         mNetComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
-                .netModule(new NetModule("https://private-anon-cfc41b0c68-oracodechallenge.apiary-mock.com/"))
+                .netModule(new NetModule("https://private-anon-6e798b3943-oracodechallenge.apiary-mock.com"))
                 .build();
     }
 
