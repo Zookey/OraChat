@@ -19,6 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary" />
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@drawable/bottom_navigation_menu"
+        app:itemTextColor="@drawable/bottom_navigation_menu"
+        app:menu="@menu/bottom_navigation_menu"/>
 
 </RelativeLayout>
