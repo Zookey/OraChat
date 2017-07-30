@@ -18,7 +18,7 @@ import retrofit2.Retrofit;
  * Created by osx on 29/07/2017.
  */
 
-public class LoginAccountPresenterImpl  implements LoginPresenter{
+public class LoginAccountPresenterImpl  implements LoginAccountPresenter {
 
     private Retrofit retrofit;
     private LoginAccountView view;

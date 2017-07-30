@@ -25,4 +25,10 @@ public class RegisterAccountModule {
     RegisterAccountView providesRegisterAccountView(){
         return view;
     }
+
+    @Provides
+    @FragmentScoped
+    RegisterAccountPresenter providesRegisterAccountPresenter(RegisterAccountPresenterImpl presenter){
+        return presenter;
+    }
 }

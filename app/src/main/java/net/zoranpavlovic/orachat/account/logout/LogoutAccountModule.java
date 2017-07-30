@@ -1,5 +1,6 @@
 package net.zoranpavlovic.orachat.account.logout;
 
+import net.zoranpavlovic.orachat.account.login.LoginAccountPresenterImpl;
 import net.zoranpavlovic.orachat.core.di.FragmentScoped;
 
 import dagger.Module;
@@ -22,5 +23,11 @@ public class LogoutAccountModule {
     @FragmentScoped
     LogoutAccountView providesLogoutAccountView(){
         return view;
+    }
+
+    @Provides
+    @FragmentScoped
+    LogoutAccountPresenter providesLogoutAccountPresenter(LogoutAccountPresenterImpl presenter){
+        return presenter;
     }
 }

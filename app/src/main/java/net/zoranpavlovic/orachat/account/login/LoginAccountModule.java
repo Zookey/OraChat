@@ -23,4 +23,10 @@ public class LoginAccountModule {
     LoginAccountView providesLoginAccountView(){
         return view;
     }
+
+    @Provides
+    @FragmentScoped
+    LoginAccountPresenter providesLoginAccountPresenter(LoginAccountPresenterImpl presenter){
+        return presenter;
+    }
 }

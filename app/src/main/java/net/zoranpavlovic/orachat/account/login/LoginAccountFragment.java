@@ -28,7 +28,7 @@ public class LoginAccountFragment extends Fragment implements LoginAccountView {
     @BindView(R.id.et_password) EditText etPassword;
 
     @Inject
-    LoginAccountPresenterImpl loginPresenter;
+    LoginAccountPresenter loginPresenter;
 
 
     public LoginAccountFragment() {

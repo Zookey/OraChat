@@ -32,7 +32,7 @@ public class RegisterAccountFragment extends Fragment implements RegisterAccount
     @BindView(R.id.et_confirm) EditText etConfirm;
 
     @Inject
-    RegisterAccountPresenterImpl registerPresenter;
+    RegisterAccountPresenter registerPresenter;
 
     public RegisterAccountFragment() {
         // Required empty public constructor
