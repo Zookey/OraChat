@@ -26,7 +26,7 @@ public class CreateChatMessagePresenterImpl implements CreateChatMessagePresente
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    private CreateChatMessagePresenterImpl(Retrofit retrofit, CreateChatMessageView view){
+    public CreateChatMessagePresenterImpl(Retrofit retrofit, CreateChatMessageView view){
         this.retrofit = retrofit;
         this.view = view;
     }

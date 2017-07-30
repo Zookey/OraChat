@@ -25,7 +25,7 @@ public class UpdateCurrentUserPresenterImpl implements UpdateCurrentUserPresente
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    private UpdateCurrentUserPresenterImpl(Retrofit retrofit, UpdateCurrentUserView view){
+    public UpdateCurrentUserPresenterImpl(Retrofit retrofit, UpdateCurrentUserView view){
         this.retrofit = retrofit;
         this.view = view;
     }

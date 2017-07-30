@@ -49,6 +49,7 @@ public class LoginAccountPresenterImpl  implements LoginAccountPresenter {
                         if(view != null){
                             view.onLoginSuccess(response.body());
                             Log.d("TAG", response.headers().toString());
+                            Log.d("TAG Auth:", response.headers().get("Authorization"));
                         }
                     }
 
