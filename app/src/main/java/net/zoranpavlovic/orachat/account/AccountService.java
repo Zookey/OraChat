@@ -1,5 +1,7 @@
 package net.zoranpavlovic.orachat.account;
 
+import android.accounts.Account;
+
 import net.zoranpavlovic.orachat.account.register.AccountResponse;
 
 import io.reactivex.Flowable;
@@ -25,6 +27,9 @@ public interface AccountService {
 
     @GET("auth/logout")
     Flowable<Response> logout();
+
+    @GET("users/current")
+    Flowable<Response<Account>> getCurrentUser();
 
 
 }

@@ -1,4 +1,4 @@
-package net.zoranpavlovic.orachat.account.view;
+package net.zoranpavlovic.orachat.account;
 
 
 import android.os.Bundle;

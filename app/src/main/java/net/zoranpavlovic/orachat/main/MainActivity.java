@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import net.zoranpavlovic.orachat.R;
-import net.zoranpavlovic.orachat.account.view.AccountFragment;
+import net.zoranpavlovic.orachat.account.AccountFragment;
 import net.zoranpavlovic.orachat.chats.ChatsFragment;
 
 import butterknife.BindView;
