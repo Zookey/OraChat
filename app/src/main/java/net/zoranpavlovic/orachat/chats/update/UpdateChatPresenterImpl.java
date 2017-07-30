@@ -1,10 +1,9 @@
-package net.zoranpavlovic.orachat.chats.list;
+package net.zoranpavlovic.orachat.chats.update;
 
 import android.util.Log;
 
-import net.zoranpavlovic.orachat.account.AccountService;
-import net.zoranpavlovic.orachat.account.register.AccountResponse;
 import net.zoranpavlovic.orachat.chats.ChatsService;
+import net.zoranpavlovic.orachat.chats.create.model.CreateChatResponse;
 import net.zoranpavlovic.orachat.chats.list.models.ChatsResponse;
 
 import javax.inject.Inject;
@@ -20,14 +19,14 @@ import retrofit2.Retrofit;
  * Created by osx on 30/07/2017.
  */
 
-public class ListChatsPresenterImpl implements ListChatsPresenter {
+public class UpdateChatPresenterImpl implements UpdateChatPresenter {
 
     private Retrofit retrofit;
-    private ListChatsView view;
+    private UpdateChatView view;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public ListChatsPresenterImpl(Retrofit retrofit, ListChatsView view){
+    public UpdateChatPresenterImpl(Retrofit retrofit, UpdateChatView view){
         this.retrofit = retrofit;
         this.view = view;
     }
@@ -41,15 +40,15 @@ public class ListChatsPresenterImpl implements ListChatsPresenter {
     }
 
     @Override
-    public void getChats(String name, int page, int limit) {
-        compositeDisposable.add(retrofit.create(ChatsService.class).getChats(name, page, limit)
+    public void updateChat(int id) {
+        compositeDisposable.add(retrofit.create(ChatsService.class).updateChat(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribeWith(new DisposableSubscriber<Response<ChatsResponse>>() {
+                .subscribeWith(new DisposableSubscriber<Response<CreateChatResponse>>() {
                     @Override
-                    public void onNext(Response<ChatsResponse> response) {
+                    public void onNext(Response<CreateChatResponse> response) {
                         if(view != null){
-                            view.onChatsLoaded(response.body());
+                            view.onChatUpdateSuccess(response.body());
                             Log.d("TAG", response.headers().toString());
                         }
                     }
@@ -57,7 +56,7 @@ public class ListChatsPresenterImpl implements ListChatsPresenter {
                     @Override
                     public void onError(Throwable t) {
                         if(view != null && t != null){
-                            view.onChatsError(t.getLocalizedMessage());
+                            view.onChatUpdateError(t.getLocalizedMessage());
                         }
                     }
 
