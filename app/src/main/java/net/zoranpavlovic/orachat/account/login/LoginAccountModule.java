@@ -1,5 +1,7 @@
 package net.zoranpavlovic.orachat.account.login;
 
+import android.content.SharedPreferences;
+
 import net.zoranpavlovic.orachat.core.di.FragmentScoped;
 
 import dagger.Module;

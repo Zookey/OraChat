@@ -8,11 +8,8 @@ import android.support.v7.widget.Toolbar;
 
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.account.login.LoginAccountFragment;
-import net.zoranpavlovic.orachat.account.register.DaggerRegisterAccountComponent;
 import net.zoranpavlovic.orachat.account.register.RegisterAccountFragment;
-import net.zoranpavlovic.orachat.account.register.RegisterAccountModule;
-import net.zoranpavlovic.orachat.account.register.RegisterAccountPresenterImpl;
-import net.zoranpavlovic.orachat.core.App;
+
 
 import javax.inject.Inject;
 

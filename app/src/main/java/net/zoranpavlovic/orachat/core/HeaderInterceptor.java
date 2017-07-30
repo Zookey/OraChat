@@ -1,10 +1,15 @@
 package net.zoranpavlovic.orachat.core;
 
+import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.provider.SyncStateContract;
 import android.util.Log;
 
+
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -20,6 +25,7 @@ public class HeaderInterceptor implements Interceptor {
 
     public HeaderInterceptor(Context context){
         this.context = context;
+
     }
 
     @Override

@@ -1,7 +1,11 @@
 package net.zoranpavlovic.orachat.account.login;
 
+import android.support.v4.content.SharedPreferencesCompat;
+
 import net.zoranpavlovic.orachat.core.di.FragmentScoped;
 import net.zoranpavlovic.orachat.core.di.component.NetComponent;
+import net.zoranpavlovic.orachat.core.di.component.SharedPreferenceComponent;
+import net.zoranpavlovic.orachat.core.di.module.SharedPreferenceModule;
 
 import dagger.Component;
 
@@ -10,7 +14,7 @@ import dagger.Component;
  */
 
 @FragmentScoped
-@Component(dependencies = NetComponent.class, modules = LoginAccountModule.class)
+@Component(dependencies = {NetComponent.class}, modules = LoginAccountModule.class)
 public interface LoginAccountComponent {
     void inject(LoginAccountFragment fragment);
 }

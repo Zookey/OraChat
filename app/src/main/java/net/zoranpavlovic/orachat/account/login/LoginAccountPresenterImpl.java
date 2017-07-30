@@ -47,9 +47,7 @@ public class LoginAccountPresenterImpl  implements LoginAccountPresenter {
                     @Override
                     public void onNext(Response<AccountResponse> response) {
                         if(view != null){
-                            view.onLoginSuccess(response.body());
-                            Log.d("TAG", response.headers().toString());
-                            Log.d("TAG Auth:", response.headers().get("Authorization"));
+                            view.onLoginSuccess(response);
                         }
                     }
 

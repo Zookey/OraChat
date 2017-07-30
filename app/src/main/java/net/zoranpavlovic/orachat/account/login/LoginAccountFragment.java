@@ -1,6 +1,7 @@
 package net.zoranpavlovic.orachat.account.login;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,12 +13,16 @@ import android.widget.EditText;
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.account.register.AccountResponse;
 import net.zoranpavlovic.orachat.core.App;
+import net.zoranpavlovic.orachat.core.di.module.SharedPreferenceModule;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Headers;
+import retrofit2.Response;
+import retrofit2.http.Header;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,8 +72,10 @@ public class LoginAccountFragment extends Fragment implements LoginAccountView {
     }
 
     @Override
-    public void onLoginSuccess(AccountResponse accountResponse) {
+    public void onLoginSuccess(Response<AccountResponse> accountResponse) {
         Log.d("TAG", "LOGIN: "+accountResponse.toString());
+        Headers headers = accountResponse.headers();
+        String token = headers.get("Authorization");
     }
 
     @Override
