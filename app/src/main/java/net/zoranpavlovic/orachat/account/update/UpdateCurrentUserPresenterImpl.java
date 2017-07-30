@@ -1,4 +1,4 @@
-package net.zoranpavlovic.orachat.account.current;
+package net.zoranpavlovic.orachat.account.update;
 
 import android.util.Log;
 
@@ -18,14 +18,14 @@ import retrofit2.Retrofit;
  * Created by osx on 30/07/2017.
  */
 
-public class GetCurrentUserPresenterImpl implements GetCurrentUserPresenter {
+public class UpdateCurrentUserPresenterImpl implements UpdateCurrentUserPresenter {
 
     private Retrofit retrofit;
-    private GetCurrentUserView view;
+    private UpdateCurrentUserView view;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public void GetCurrentUserPresenterImpl(Retrofit retrofit, GetCurrentUserView view){
+    private UpdateCurrentUserPresenterImpl(Retrofit retrofit, UpdateCurrentUserView view){
         this.retrofit = retrofit;
         this.view = view;
     }
@@ -39,15 +39,15 @@ public class GetCurrentUserPresenterImpl implements GetCurrentUserPresenter {
     }
 
     @Override
-    public void getCurrentUser() {
-        compositeDisposable.add(retrofit.create(AccountService.class).getCurrentUser()
+    public void updateCurrentUser(String name, String email, String password, String confirm) {
+        compositeDisposable.add(retrofit.create(AccountService.class).login(email, password)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribeWith(new DisposableSubscriber<Response<AccountResponse>>() {
                     @Override
                     public void onNext(Response<AccountResponse> response) {
                         if(view != null){
-                            view.onCurrentUserLoaded(response.body());
+                            view.onCurrentUserUpdated(response.body());
                             Log.d("TAG", response.headers().toString());
                         }
                     }
@@ -55,7 +55,7 @@ public class GetCurrentUserPresenterImpl implements GetCurrentUserPresenter {
                     @Override
                     public void onError(Throwable t) {
                         if(view != null && t != null){
-                            view.onCurrentUserError(t.getLocalizedMessage());
+                            view.onCurrentUserUpdateError(t.getLocalizedMessage());
                         }
                     }
 

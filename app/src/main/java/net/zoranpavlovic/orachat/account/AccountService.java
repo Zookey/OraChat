@@ -9,6 +9,7 @@ import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 
 /**
@@ -29,7 +30,10 @@ public interface AccountService {
     Flowable<Response> logout();
 
     @GET("users/current")
-    Flowable<Response<Account>> getCurrentUser();
+    Flowable<Response<AccountResponse>> getCurrentUser();
+
+    @PATCH("users/current")
+    Flowable<Response<AccountResponse>> updateCurrentUser(@Field("name") String name, @Field("email") String email, @Field("password") String password, @Field("confirm_password") String confirm);
 
 
 }
