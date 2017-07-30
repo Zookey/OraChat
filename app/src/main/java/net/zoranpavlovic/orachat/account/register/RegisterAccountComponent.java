@@ -1,7 +1,5 @@
 package net.zoranpavlovic.orachat.account.register;
 
-import net.zoranpavlovic.orachat.account.AccountActivity;
-import net.zoranpavlovic.orachat.core.di.CustomScope;
 import net.zoranpavlovic.orachat.core.di.FragmentScoped;
 import net.zoranpavlovic.orachat.core.di.component.NetComponent;
 
