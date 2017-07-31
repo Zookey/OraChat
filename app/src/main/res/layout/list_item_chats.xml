@@ -9,7 +9,8 @@
     <TextView
         tools:text="Today"
         android:padding="16dp"
-        android:background="#e5e5e5"
+        android:background="#f7f7f7"
+        android:textColor="#030303"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tv_date" />
@@ -22,6 +23,7 @@
         android:layout_below="@+id/tv_date">
 
     <TextView
+        android:textColor="#030303"
         tools:text="A chat"
         android:id="@+id/tv_chat_name"
         android:layout_width="match_parent"
@@ -30,12 +32,14 @@
     <TextView
         tools:text="Title"
         android:id="@+id/tv_title"
+        android:textColor="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_chat_name"/>
 
     <TextView
         tools:text="Last mesaage"
+        android:textColor="#d8d8d8"
         android:id="@+id/tv_last_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
