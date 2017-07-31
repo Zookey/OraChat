@@ -1,6 +1,7 @@
 package net.zoranpavlovic.orachat.account.login;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.account.register.AccountResponse;
 import net.zoranpavlovic.orachat.core.App;
+import net.zoranpavlovic.orachat.main.MainActivity;
 
 import javax.inject.Inject;
 
@@ -77,6 +79,13 @@ public class LoginAccountFragment extends Fragment implements LoginAccountView {
     @Override
     public void onLoginSuccess(Response<AccountResponse> accountResponse) {
         saveToken(accountResponse);
+        openMainScreen();
+    }
+
+    private void openMainScreen() {
+        Intent i = new Intent(getActivity(), MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
     }
 
     private void saveToken(Response<AccountResponse> accountResponse) {
