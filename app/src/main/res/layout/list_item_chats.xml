@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_chats_root">
+
+    <TextView
+        tools:text="Today"
+        android:padding="16dp"
+        android:background="#e5e5e5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_date" />
+
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_date">
+
+    <TextView
+        tools:text="A chat"
+        android:id="@+id/tv_chat_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        tools:text="Title"
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_chat_name"/>
+
+    <TextView
+        tools:text="Last mesaage"
+        android:id="@+id/tv_last_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"/>
+</RelativeLayout>
+</RelativeLayout>
