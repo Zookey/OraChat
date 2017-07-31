@@ -1,6 +1,9 @@
 package net.zoranpavlovic.orachat.core.di.module;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import javax.inject.Singleton;
 
@@ -26,4 +29,9 @@ public class AppModule {
         return application;
     }
 
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences(){
+        return application.getSharedPreferences("orachat", Context.MODE_PRIVATE);
+    }
 }

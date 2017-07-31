@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import net.zoranpavlovic.orachat.R;
-import net.zoranpavlovic.orachat.account.AccountActivity;
 import net.zoranpavlovic.orachat.core.App;
 
 import javax.inject.Inject;
@@ -48,7 +47,7 @@ public class RegisterAccountFragment extends Fragment implements RegisterAccount
         ButterKnife.bind(this, v);
 
         DaggerRegisterAccountComponent.builder()
-                .netComponent(((App) getActivity().getApplicationContext()).getNetComponent())
+                .appComponent(((App) getActivity().getApplicationContext()).getAppComponent())
                 .registerAccountModule(new RegisterAccountModule(this))
                 .build()
                 .inject(this);

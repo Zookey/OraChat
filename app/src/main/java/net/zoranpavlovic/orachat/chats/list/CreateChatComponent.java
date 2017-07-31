@@ -2,7 +2,7 @@ package net.zoranpavlovic.orachat.chats.list;
 
 import net.zoranpavlovic.orachat.chats.ChatsFragment;
 import net.zoranpavlovic.orachat.core.di.FragmentScoped;
-import net.zoranpavlovic.orachat.core.di.component.NetComponent;
+import net.zoranpavlovic.orachat.core.di.component.AppComponent;
 
 import dagger.Component;
 
@@ -11,7 +11,7 @@ import dagger.Component;
  */
 
 @FragmentScoped
-@Component(dependencies = NetComponent.class, modules = ListChatsModule.class)
+@Component(dependencies = AppComponent.class, modules = ListChatsModule.class)
 public interface CreateChatComponent {
     void inject(ChatsFragment chatsFragment);
 }

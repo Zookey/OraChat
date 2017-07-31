@@ -2,8 +2,8 @@ package net.zoranpavlovic.orachat.core;
 
 import android.app.Application;
 
-import net.zoranpavlovic.orachat.core.di.component.DaggerNetComponent;
-import net.zoranpavlovic.orachat.core.di.component.NetComponent;
+import net.zoranpavlovic.orachat.core.di.component.AppComponent;
+import net.zoranpavlovic.orachat.core.di.component.DaggerAppComponent;
 import net.zoranpavlovic.orachat.core.di.module.AppModule;
 import net.zoranpavlovic.orachat.core.di.module.NetModule;
 
@@ -13,19 +13,19 @@ import net.zoranpavlovic.orachat.core.di.module.NetModule;
 
 public class App extends Application {
 
-    private NetComponent mNetComponent;
+    private AppComponent mAppComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        mNetComponent = DaggerNetComponent.builder()
+        mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .netModule(new NetModule("https://private-anon-6e798b3943-oracodechallenge.apiary-mock.com"))
                 .build();
     }
 
-    public NetComponent getNetComponent() {
-        return mNetComponent;
+    public AppComponent getAppComponent() {
+        return mAppComponent;
     }
 }

@@ -1,9 +1,8 @@
 package net.zoranpavlovic.orachat.account.current;
 
 import net.zoranpavlovic.orachat.account.AccountFragment;
-import net.zoranpavlovic.orachat.core.di.ActivityScoped;
 import net.zoranpavlovic.orachat.core.di.FragmentScoped;
-import net.zoranpavlovic.orachat.core.di.component.NetComponent;
+import net.zoranpavlovic.orachat.core.di.component.AppComponent;
 
 import dagger.Component;
 
@@ -12,7 +11,7 @@ import dagger.Component;
  */
 
 @FragmentScoped
-@Component(dependencies = NetComponent.class, modules = GetCurrentUserModule.class)
+@Component(dependencies = AppComponent.class, modules = GetCurrentUserModule.class)
 public interface GetCurrentUserComponent {
     void inject(AccountFragment accountFragment);
 }

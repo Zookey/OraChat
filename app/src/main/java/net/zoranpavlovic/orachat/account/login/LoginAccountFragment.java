@@ -13,7 +13,6 @@ import android.widget.EditText;
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.account.register.AccountResponse;
 import net.zoranpavlovic.orachat.core.App;
-import net.zoranpavlovic.orachat.core.di.module.SharedPreferenceModule;
 
 import javax.inject.Inject;
 
@@ -22,7 +21,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Headers;
 import retrofit2.Response;
-import retrofit2.http.Header;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +32,9 @@ public class LoginAccountFragment extends Fragment implements LoginAccountView {
 
     @Inject
     LoginAccountPresenter loginPresenter;
+
+    @Inject
+    SharedPreferences sharedPreferences;
 
 
     public LoginAccountFragment() {
@@ -50,10 +51,12 @@ public class LoginAccountFragment extends Fragment implements LoginAccountView {
         ButterKnife.bind(this, v);
 
         DaggerLoginAccountComponent.builder()
-                .netComponent(((App) getActivity().getApplicationContext()).getNetComponent())
+                .appComponent(((App) getActivity().getApplicationContext()).getAppComponent())
                 .loginAccountModule(new LoginAccountModule(this))
                 .build()
                 .inject(this);
+
+        sharedPreferences = ((App) getActivity().getApplicationContext()).getAppComponent().getSharedPreferences();
 
         return v;
     }
