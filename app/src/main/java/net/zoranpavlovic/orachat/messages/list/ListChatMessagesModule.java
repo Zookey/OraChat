@@ -13,15 +13,15 @@ import dagger.Provides;
 @Module
 public class ListChatMessagesModule {
 
-    private ListChatsView view;
+    private ListChatMessagesView view;
 
-    public ListChatMessagesModule(ListChatsView view){
+    public ListChatMessagesModule(ListChatMessagesView view){
         this.view = view;
     }
 
     @Provides
     @ActivityScoped
-    ListChatsView providesView(){
+    ListChatMessagesView providesView(){
         return view;
     }
 

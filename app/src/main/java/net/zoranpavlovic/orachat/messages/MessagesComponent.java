@@ -1,9 +1,11 @@
-package net.zoranpavlovic.orachat.messages.list;
+package net.zoranpavlovic.orachat.messages;
 
 import net.zoranpavlovic.orachat.chats.list.ListChatsModule;
 import net.zoranpavlovic.orachat.core.di.ActivityScoped;
 import net.zoranpavlovic.orachat.core.di.component.AppComponent;
 import net.zoranpavlovic.orachat.messages.MessagesActivity;
+import net.zoranpavlovic.orachat.messages.create.CreateChatMessageModule;
+import net.zoranpavlovic.orachat.messages.list.ListChatMessagesModule;
 
 import dagger.Component;
 
@@ -12,7 +14,7 @@ import dagger.Component;
  */
 
 @ActivityScoped
-@Component(dependencies = AppComponent.class, modules = ListChatsModule.class)
-public interface ListChatMessagesComponent {
+@Component(dependencies = AppComponent.class, modules = {ListChatMessagesModule.class, CreateChatMessageModule.class})
+public interface MessagesComponent {
     void inject(MessagesActivity activity);
 }

@@ -7,7 +7,7 @@ import net.zoranpavlovic.orachat.messages.create.model.CreateChatMessageResponse
  * Created by osx on 30/07/2017.
  */
 
-public interface CreateChatMessageView extends BasePresenter {
+public interface CreateChatMessageView  {
 
     void onChatMessageCreateSuccess(CreateChatMessageResponse body);
 
