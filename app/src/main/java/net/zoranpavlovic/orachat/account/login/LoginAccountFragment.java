@@ -76,9 +76,13 @@ public class LoginAccountFragment extends Fragment implements LoginAccountView {
 
     @Override
     public void onLoginSuccess(Response<AccountResponse> accountResponse) {
-        Log.d("TAG", "LOGIN: "+accountResponse.toString());
+        saveToken(accountResponse);
+    }
+
+    private void saveToken(Response<AccountResponse> accountResponse) {
         Headers headers = accountResponse.headers();
         String token = headers.get("Authorization");
+        sharedPreferences.edit().putString("Authorization", token).apply();
     }
 
     @Override

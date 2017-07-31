@@ -10,6 +10,8 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.zoranpavlovic.orachat.core.HeaderInterceptor;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -51,8 +53,9 @@ public class NetModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient(Cache cache) {
+    OkHttpClient provideOkHttpClient(Cache cache, Application application) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
+        client.addInterceptor(new HeaderInterceptor(application));
         client.cache(cache);
         return client.build();
     }
