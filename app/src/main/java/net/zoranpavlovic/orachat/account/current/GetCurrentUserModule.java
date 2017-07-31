@@ -14,7 +14,7 @@ public class GetCurrentUserModule {
 
     private GetCurrentUserView view;
 
-    public void GetCurrentUserModule(GetCurrentUserView view){
+    public GetCurrentUserModule(GetCurrentUserView view){
         this.view = view;
     }
 

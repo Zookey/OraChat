@@ -25,7 +25,7 @@ public class GetCurrentUserPresenterImpl implements GetCurrentUserPresenter {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public void GetCurrentUserPresenterImpl(Retrofit retrofit, GetCurrentUserView view){
+    public GetCurrentUserPresenterImpl(Retrofit retrofit, GetCurrentUserView view){
         this.retrofit = retrofit;
         this.view = view;
     }
