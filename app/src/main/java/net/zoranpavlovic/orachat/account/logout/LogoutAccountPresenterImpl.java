@@ -11,6 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.DisposableSubscriber;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -43,12 +44,11 @@ public class LogoutAccountPresenterImpl implements LogoutAccountPresenter {
         compositeDisposable.add(retrofit.create(AccountService.class).logout()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribeWith(new DisposableSubscriber<Response>() {
+                .subscribeWith(new DisposableSubscriber<ResponseBody>() {
                     @Override
-                    public void onNext(Response response) {
+                    public void onNext(ResponseBody response) {
                         if(view != null){
                             view.onLogoutSuccess();
-                            Log.d("TAG", response.headers().toString());
                         }
                     }
 
@@ -61,6 +61,9 @@ public class LogoutAccountPresenterImpl implements LogoutAccountPresenter {
 
                     @Override
                     public void onComplete() {
+                        if(view != null){
+                            view.onLogoutSuccess();
+                        }
                     }
                 }));
     }

@@ -5,6 +5,7 @@ import android.accounts.Account;
 import net.zoranpavlovic.orachat.account.register.AccountResponse;
 
 import io.reactivex.Flowable;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -27,7 +28,7 @@ public interface AccountService {
     Flowable<Response<AccountResponse>> login(@Field("email") String email, @Field("password") String password);
 
     @GET("auth/logout")
-    Flowable<Response> logout();
+    Flowable<ResponseBody> logout();
 
     @GET("users/current")
     Flowable<Response<AccountResponse>> getCurrentUser();

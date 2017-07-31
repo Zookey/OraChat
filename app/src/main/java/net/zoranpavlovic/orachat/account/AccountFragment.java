@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -61,6 +65,8 @@ public class AccountFragment extends Fragment implements GetCurrentUserView, Upd
                              Bundle savedInstanceState) {
 
         View v =  inflater.inflate(R.layout.fragment_account, container, false);
+
+        setHasOptionsMenu(true);
 
         ButterKnife.bind(this, v);
 
@@ -130,5 +136,39 @@ public class AccountFragment extends Fragment implements GetCurrentUserView, Upd
     @Override
     public void onLogoutError(String error) {
         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.account_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.logout){
+            logoutAccountPresenter.logout();
+            return true;
+        } else if(item.getItemId() == R.id.update) {
+            updateCurrentUserPresenter.updateCurrentUser(getName(), getEmail(), getPassword(), getConfirm());
+            return true;
+        }
+        return true;
+    }
+
+    private String getName(){
+        return etName.getText().toString();
+    }
+
+    private String getEmail(){
+        return etEmail.getText().toString();
+    }
+
+    private String getPassword(){
+        return etPassword.getText().toString();
+    }
+
+    private String getConfirm(){
+        return etConfirm.getText().toString();
     }
 }
