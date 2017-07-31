@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private void setUpToolbar() {
         toolbar.setTitle(getResources().getString(R.string.app_name));
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private void setUpBottomNavigationMenu() {

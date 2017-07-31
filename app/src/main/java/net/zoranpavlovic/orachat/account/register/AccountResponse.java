@@ -4,7 +4,9 @@ package net.zoranpavlovic.orachat.account.register;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AccountResponse {
+import java.io.Serializable;
+
+public class AccountResponse implements Serializable{
 
     @SerializedName("data")
     @Expose
