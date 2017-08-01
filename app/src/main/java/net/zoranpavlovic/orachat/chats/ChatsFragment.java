@@ -1,12 +1,17 @@
 package net.zoranpavlovic.orachat.chats;
 
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -48,6 +53,8 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
     @Inject CreateChatPresenter createChatPresenter;
     private EndlessRecyclerViewScrollListener scrollListener;
 
+    private SearchView searchView;
+
     public ChatsFragment() {
         // Required empty public constructor
     }
@@ -58,6 +65,8 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_chats, container, false);
+
+        setHasOptionsMenu(true);
 
         ButterKnife.bind(this, v);
 
@@ -113,4 +122,33 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
     public void onChatCreateError(String error) {
         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.chats_menu, menu);
+        SearchManager searchManager =
+                (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getActivity().getComponentName()));
+
+        searchView.setQueryHint(getString(R.string.action_search));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                listChatsPresenter.getChats(query, 1, 50);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+
 }

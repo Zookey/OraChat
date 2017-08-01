@@ -17,4 +17,5 @@
     <string name="by">\u0020 by \u0020</string>
     <string name="user_updated">User updated</string>
     <string name="write_a_message">Write a message</string>
+    <string name="action_search">Search</string>
 </resources>
