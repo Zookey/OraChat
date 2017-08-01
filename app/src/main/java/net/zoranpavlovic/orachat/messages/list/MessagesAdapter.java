@@ -12,8 +12,11 @@ import android.widget.TextView;
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.chats.list.models.ChatsResponse;
 import net.zoranpavlovic.orachat.chats.list.models.Datum;
+import net.zoranpavlovic.orachat.core.Utils;
 import net.zoranpavlovic.orachat.messages.MessagesActivity;
 import net.zoranpavlovic.orachat.messages.list.models.MessagesResponse;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,8 +58,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     public void onBindViewHolder(final MessagesAdapter.ViewHolder holder, final int i) {
       if(messagesResponse != null){
           holder.tvMessage.setText(messagesResponse.getData().get(i).getMessage());
-          holder.tvUserAndDate.setText(messagesResponse.getData().get(i).getUser().getName()+" "+
-          messagesResponse.getData().get(i).getCreatedAt());
+          String date = Utils.getDate(messagesResponse.getData().get(i).getCreatedAt());
+          holder.tvUserAndDate.setText(messagesResponse.getData().get(i).getUser().getName()+" - "+
+          date);
       }
     }
 

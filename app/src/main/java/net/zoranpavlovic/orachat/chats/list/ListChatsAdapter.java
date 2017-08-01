@@ -12,6 +12,7 @@ import android.widget.TextView;
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.chats.list.models.ChatsResponse;
 import net.zoranpavlovic.orachat.chats.list.models.Datum;
+import net.zoranpavlovic.orachat.core.Utils;
 import net.zoranpavlovic.orachat.messages.MessagesActivity;
 
 import butterknife.BindView;
@@ -60,12 +61,13 @@ public class ListChatsAdapter extends RecyclerView.Adapter<ListChatsAdapter.View
             String name = datum.getName();
             String lastMessage = datum.getLastChatMessage().getMessage();
             String createdAt = datum.getLastChatMessage().getCreatedAt();
+            String date = Utils.getDate(createdAt);
             String user = datum.getUsers().get(0).getName();
 
-            holder.tvDate.setText(createdAt);
+            holder.tvDate.setText(date);
             holder.tvChatName.setText(name);
             holder.tvLastChatMessage.setText(lastMessage);
-            holder.tvTitle.setText(user+" "+createdAt);
+            holder.tvTitle.setText(user+" - "+date);
 
             holder.rlRoot.setOnClickListener(new View.OnClickListener() {
                 @Override
