@@ -84,6 +84,12 @@ public class LoginAccountFragment extends Fragment implements LoginAccountView {
     public void onLoginSuccess(Response<AccountResponse> accountResponse) {
         saveToken(accountResponse);
         openMainScreen();
+        saveUser(accountResponse);
+    }
+
+    private void saveUser(Response<AccountResponse> accountResponse) {
+        int id = accountResponse.body().getData().getId();
+        sharedPreferences.edit().putInt("id", id).apply();
     }
 
     private void openMainScreen() {

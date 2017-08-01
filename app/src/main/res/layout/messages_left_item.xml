@@ -12,7 +12,6 @@
         android:id="@+id/ll_message"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#E7E7E7"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="8dp"
@@ -33,7 +32,7 @@
             android:paddingRight="16dp"
             android:paddingTop="8dp"
             android:text=""
-            android:textColor="#000" />
+            android:textColor="#a3a7a9" />
     </LinearLayout>
 
     <TextView

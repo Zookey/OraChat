@@ -101,7 +101,13 @@ public class RegisterAccountFragment extends Fragment implements RegisterAccount
     @Override
     public void onRegisterAccountSuccess(Response<AccountResponse> accountResponse) {
         saveToken(accountResponse);
+        saveUser(accountResponse);
         openMainScreen();
+    }
+
+    private void saveUser(Response<AccountResponse> accountResponse) {
+        int id = accountResponse.body().getData().getId();
+        sharedPreferences.edit().putInt("id", id).apply();
     }
 
     @Override
