@@ -33,17 +33,12 @@ public class LoginAccountFragment extends Fragment implements LoginAccountView {
     @BindView(R.id.et_email) EditText etEmail;
     @BindView(R.id.et_password) EditText etPassword;
 
-    @Inject
-    LoginAccountPresenter loginPresenter;
-
-    @Inject
-    SharedPreferences sharedPreferences;
-
+    @Inject LoginAccountPresenter loginPresenter;
+    @Inject SharedPreferences sharedPreferences;
 
     public LoginAccountFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

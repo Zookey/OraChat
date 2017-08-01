@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import net.zoranpavlovic.orachat.R;
+import net.zoranpavlovic.orachat.chats.create.CreateChatCallback;
+import net.zoranpavlovic.orachat.chats.create.CreateChatDialog;
 import net.zoranpavlovic.orachat.chats.create.CreateChatModule;
 import net.zoranpavlovic.orachat.chats.create.CreateChatPresenter;
 import net.zoranpavlovic.orachat.chats.create.CreateChatView;
@@ -70,21 +72,36 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
 
         ButterKnife.bind(this, v);
 
+        initDagger();
+
+        getChats();
+
+        return v;
+    }
+
+    private void initDagger() {
         DaggerListChatsComponent.builder()
                 .appComponent(((App) getActivity().getApplicationContext()).getAppComponent())
                 .listChatsModule(new ListChatsModule(this))
                 .createChatModule(new CreateChatModule(this))
                 .build()
                 .inject(this);
+    }
 
+    private void getChats() {
         listChatsPresenter.getChats("", 1, 50);
-
-        return v;
     }
 
     @OnClick(R.id.fab_add_chats)
     void onAddChatClick(){
-        createChatPresenter.createChat("test chat", "Test message");
+        CreateChatDialog createChatDialog = new CreateChatDialog(getActivity());
+        createChatDialog.show();
+        createChatDialog.setCallback(new CreateChatCallback() {
+            @Override
+            public void onChatCreated(String name, String message) {
+                createChatPresenter.createChat(name, message);
+            }
+        });
     }
 
     @Override
@@ -94,7 +111,6 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
         rvChats.setLayoutManager(linearLayoutManager);
         rvChats.setAdapter(adapter);
         endlessScrolListener(chatsResponse, linearLayoutManager);
-
     }
 
     private void endlessScrolListener(final ChatsResponse response, final LinearLayoutManager linearLayoutManager) {
@@ -115,6 +131,7 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
 
     @Override
     public void onChatCreateSuccess(CreateChatResponse createChatResponse) {
+        getChats();
         Toast.makeText(getActivity(), "Chat created!", Toast.LENGTH_SHORT).show();
     }
 
