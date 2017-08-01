@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.chats.create.CreateChatModule;
+import net.zoranpavlovic.orachat.chats.create.CreateChatPresenter;
 import net.zoranpavlovic.orachat.chats.create.CreateChatView;
 import net.zoranpavlovic.orachat.chats.create.model.CreateChatResponse;
 import net.zoranpavlovic.orachat.chats.list.DaggerListChatsComponent;
@@ -36,9 +38,10 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
 
     @BindView(R.id.rv_chats) RecyclerView rvChats;
 
-    @Inject
-    ListChatsPresenter listChatsPresenter;
+    @Inject ListChatsPresenter listChatsPresenter;
     private ListChatsAdapter adapter;
+
+    @Inject CreateChatPresenter createChatPresenter;
 
     public ChatsFragment() {
         // Required empty public constructor
@@ -67,7 +70,7 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
 
     @OnClick(R.id.fab_add_chats)
     void onAddChatClick(){
-
+        createChatPresenter.createChat("test chat", "Test message");
     }
 
     @Override
@@ -81,16 +84,16 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
 
     @Override
     public void onChatsError(String error) {
-
+        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onChatCreateSuccess(CreateChatResponse createChatResponse) {
-
+        Toast.makeText(getActivity(), "Chat created!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onChatCreateError(String error) {
-
+        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
     }
 }

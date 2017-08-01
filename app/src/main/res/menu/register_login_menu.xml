@@ -1,11 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/update" android:title="@string/action_update"
+    <item android:id="@+id/aciton_register"
+        android:title="@string/register"
         android:orderInCategory="100"
         app:showAsAction="always|collapseActionView"
-       />
-    <item android:title="@string/logout"
-        android:id="@+id/logout"
+        />
+    <item android:title="@string/login"
+        android:id="@+id/action_login"
         app:showAsAction="always" />
 </menu>

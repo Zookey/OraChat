@@ -1,6 +1,8 @@
 package net.zoranpavlovic.orachat.account.register;
 
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,12 +14,15 @@ import android.widget.Toast;
 
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.core.App;
+import net.zoranpavlovic.orachat.main.MainActivity;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Headers;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,8 +35,8 @@ public class RegisterAccountFragment extends Fragment implements RegisterAccount
     @BindView(R.id.et_password) EditText etPassword;
     @BindView(R.id.et_confirm) EditText etConfirm;
 
-    @Inject
-    RegisterAccountPresenter registerPresenter;
+    @Inject RegisterAccountPresenter registerPresenter;
+    @Inject SharedPreferences sharedPreferences;
 
     public RegisterAccountFragment() {
         // Required empty public constructor
@@ -46,13 +51,19 @@ public class RegisterAccountFragment extends Fragment implements RegisterAccount
 
         ButterKnife.bind(this, v);
 
+        initDagger();
+
+        return v;
+    }
+
+    private void initDagger() {
         DaggerRegisterAccountComponent.builder()
                 .appComponent(((App) getActivity().getApplicationContext()).getAppComponent())
                 .registerAccountModule(new RegisterAccountModule(this))
                 .build()
                 .inject(this);
 
-        return v;
+        sharedPreferences = ((App) getActivity().getApplicationContext()).getAppComponent().getSharedPreferences();
     }
 
     @OnClick(R.id.btn_register)
@@ -88,12 +99,26 @@ public class RegisterAccountFragment extends Fragment implements RegisterAccount
     }
 
     @Override
-    public void onRegisterAccountSuccess(AccountResponse accountResponse) {
-        Log.d("TAG", accountResponse.toString());
+    public void onRegisterAccountSuccess(Response<AccountResponse> accountResponse) {
+        saveToken(accountResponse);
+        openMainScreen();
     }
 
     @Override
     public void onRegisterAccountError(String error) {
         Log.d("TAG", error);
     }
+
+    private void saveToken(Response<AccountResponse> accountResponse) {
+        Headers headers = accountResponse.headers();
+        String token = headers.get("Authorization");
+        sharedPreferences.edit().putString("Authorization", token).apply();
+    }
+
+    private void openMainScreen() {
+        Intent i = new Intent(getActivity(), MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+    }
+
 }

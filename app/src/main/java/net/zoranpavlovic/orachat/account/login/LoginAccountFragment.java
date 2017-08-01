@@ -52,6 +52,12 @@ public class LoginAccountFragment extends Fragment implements LoginAccountView {
 
         ButterKnife.bind(this, v);
 
+        initDagger();
+
+        return v;
+    }
+
+    private void initDagger() {
         DaggerLoginAccountComponent.builder()
                 .appComponent(((App) getActivity().getApplicationContext()).getAppComponent())
                 .loginAccountModule(new LoginAccountModule(this))
@@ -59,8 +65,6 @@ public class LoginAccountFragment extends Fragment implements LoginAccountView {
                 .inject(this);
 
         sharedPreferences = ((App) getActivity().getApplicationContext()).getAppComponent().getSharedPreferences();
-
-        return v;
     }
 
     @OnClick(R.id.btn_login)

@@ -84,6 +84,7 @@ public class MessagesActivity extends AppCompatActivity implements ListChatMessa
     void sendMessageClick(){
         if(!getMessage().isEmpty()){
             createChatMessagePresenter.createMessage(id, getMessage());
+            etMessage.setText("");
         } else{
             Toast.makeText(this, R.string.empty_message, Toast.LENGTH_SHORT).show();
         }

@@ -39,7 +39,7 @@ public class RegisterAccountPresenterImpl implements RegisterAccountPresenter{
                     @Override
                     public void onNext(Response<AccountResponse> response) {
                         if(view != null){
-                            view.onRegisterAccountSuccess(response.body());
+                            view.onRegisterAccountSuccess(response);
                             Log.d("TAG", response.headers().toString());
                         }
                     }
