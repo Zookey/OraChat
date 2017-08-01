@@ -12,6 +12,7 @@ import android.widget.TextView;
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.chats.list.models.ChatsResponse;
 import net.zoranpavlovic.orachat.chats.list.models.Datum;
+import net.zoranpavlovic.orachat.core.Constants;
 import net.zoranpavlovic.orachat.core.Utils;
 import net.zoranpavlovic.orachat.messages.MessagesActivity;
 
@@ -64,23 +65,26 @@ public class ListChatsAdapter extends RecyclerView.Adapter<ListChatsAdapter.View
             String date = Utils.getDate(createdAt);
             String user = datum.getUsers().get(0).getName();
 
+            String lastMessageUserName = chatsResponse.getData().get(i).getLastChatMessage().getUser().getName();
+
             holder.tvDate.setText(date);
-            holder.tvChatName.setText(name);
+            holder.tvChatName.setText(name+activity.getString(R.string.by)+user);
             holder.tvLastChatMessage.setText(lastMessage);
-            holder.tvTitle.setText(user+" - "+date);
+            holder.tvTitle.setText(lastMessageUserName+" - "+date);
 
             holder.rlRoot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    openMessagesScreen();
+                    openMessagesScreen(holder.getPosition());
                 }
             });
         }
     }
 
-    private void openMessagesScreen() {
+    private void openMessagesScreen(int position) {
         Intent i = new Intent(activity, MessagesActivity.class);
-        i.putExtra("id", chatsResponse.getData().get(0).getId());
+        i.putExtra(Constants.CHAT_ID, chatsResponse.getData().get(position).getId());
+        i.putExtra(Constants.CHAT_NAME, chatsResponse.getData().get(position).getName());
         activity.startActivity(i);
     }
 

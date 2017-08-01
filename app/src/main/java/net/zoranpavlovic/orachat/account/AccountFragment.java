@@ -112,7 +112,7 @@ public class AccountFragment extends Fragment implements GetCurrentUserView, Upd
 
     @Override
     public void onCurrentUserUpdated(AccountResponse accountResponse) {
-        Toast.makeText(getActivity(), "User updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.user_updated, Toast.LENGTH_SHORT).show();
         setUserData(accountResponse);
     }
 

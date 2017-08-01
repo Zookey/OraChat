@@ -75,7 +75,6 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
 
     @Override
     public void onChatsLoaded(ChatsResponse chatsResponse) {
-        Log.d("TAG", chatsResponse.toString());
         adapter = new ListChatsAdapter(getActivity(), chatsResponse);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rvChats.setLayoutManager(linearLayoutManager);

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.core.App;
+import net.zoranpavlovic.orachat.core.Constants;
 import net.zoranpavlovic.orachat.messages.create.CreateChatMessageModule;
 import net.zoranpavlovic.orachat.messages.create.CreateChatMessagePresenter;
 import net.zoranpavlovic.orachat.messages.create.CreateChatMessageView;
@@ -30,6 +31,7 @@ import butterknife.OnClick;
 public class MessagesActivity extends AppCompatActivity implements ListChatMessagesView, CreateChatMessageView {
 
     private int id;
+    private String title;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.rv_messages) RecyclerView rvMessages;
@@ -47,7 +49,7 @@ public class MessagesActivity extends AppCompatActivity implements ListChatMessa
 
         ButterKnife.bind(this);
 
-        getIdOfChat();
+        getChatDataFromBundle();
 
         initDagger();
 
@@ -58,7 +60,7 @@ public class MessagesActivity extends AppCompatActivity implements ListChatMessa
     }
 
     private void setUpToolbar() {
-        toolbar.setTitle(getResources().getString(R.string.app_name));
+        toolbar.setTitle(title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -73,10 +75,11 @@ public class MessagesActivity extends AppCompatActivity implements ListChatMessa
                 .inject(this);
     }
 
-    private void getIdOfChat() {
+    private void getChatDataFromBundle() {
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
-            id = bundle.getInt("id");
+            id = bundle.getInt(Constants.CHAT_ID);
+            title = bundle.getString(Constants.CHAT_NAME);
         }
     }
 

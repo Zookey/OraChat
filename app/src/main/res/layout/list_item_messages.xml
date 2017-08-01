@@ -27,10 +27,10 @@
             android:layout_toEndOf="@+id/tv_image"
             android:layout_toRightOf="@+id/tv_image"
             android:layout_weight="1"
-            android:paddingBottom="8dp"
+            android:paddingBottom="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:paddingTop="8dp"
+            android:paddingTop="16dp"
             android:text=""
             android:textColor="#a3a7a9" />
     </LinearLayout>
@@ -45,6 +45,8 @@
         android:id="@+id/tv_user_and_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_message" />
+        android:layout_below="@+id/ll_message"
+        android:layout_alignLeft="@+id/ll_message"
+        android:layout_alignStart="@+id/ll_message" />
 
 </RelativeLayout>

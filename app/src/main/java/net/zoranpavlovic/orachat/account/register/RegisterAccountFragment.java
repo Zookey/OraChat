@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.core.App;
+import net.zoranpavlovic.orachat.core.Constants;
 import net.zoranpavlovic.orachat.main.MainActivity;
 
 import javax.inject.Inject;
@@ -107,7 +108,7 @@ public class RegisterAccountFragment extends Fragment implements RegisterAccount
 
     private void saveUser(Response<AccountResponse> accountResponse) {
         int id = accountResponse.body().getData().getId();
-        sharedPreferences.edit().putInt("id", id).apply();
+        sharedPreferences.edit().putInt(Constants.USER_ID, id).apply();
     }
 
     @Override
@@ -117,8 +118,8 @@ public class RegisterAccountFragment extends Fragment implements RegisterAccount
 
     private void saveToken(Response<AccountResponse> accountResponse) {
         Headers headers = accountResponse.headers();
-        String token = headers.get("Authorization");
-        sharedPreferences.edit().putString("Authorization", token).apply();
+        String token = headers.get(Constants.AUTHORIZATION);
+        sharedPreferences.edit().putString(Constants.AUTHORIZATION, token).apply();
     }
 
     private void openMainScreen() {
