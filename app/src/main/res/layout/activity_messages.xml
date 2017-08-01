@@ -45,7 +45,7 @@
             android:background="@color/white"
             android:textColor="@color/black"
             android:textColorHint="@color/colorPrimary"
-            android:hint="Write a message"
+            android:hint="@string/write_a_message"
             android:gravity="center|left"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/btn_message_send"

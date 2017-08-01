@@ -51,7 +51,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
         sharedPreferences = ((App) activity.getApplicationContext()).getAppComponent().getSharedPreferences();
         currentUserId = sharedPreferences.getInt(Constants.USER_ID, -1);
-
     }
 
     @Override
@@ -64,21 +63,34 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     @Override
     public void onBindViewHolder(final MessagesAdapter.ViewHolder holder, final int i) {
       if(messagesResponse != null){
-
-          if(currentUserId == messagesResponse.getData().get(i).getUserId()){
-              holder.tvUserAndDate.setGravity(Gravity.RIGHT);
-              holder.llMessage.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.right_message_bg));
-          } else if(currentUserId != messagesResponse.getData().get(i).getId()){
-              holder.tvUserAndDate.setGravity(Gravity.LEFT);
-              holder.llMessage.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.left_message_bg));
-          }
-
-          holder.tvMessage.setText(messagesResponse.getData().get(i).getMessage());
-          String date = Utils.getDate(messagesResponse.getData().get(i).getCreatedAt());
-          holder.tvUserAndDate.setText(messagesResponse.getData().get(i).getUser().getName()+" - "+
-                  date);
-
+          styleMessage(holder, i);
+          setData(holder, i);
       }
+    }
+
+    private void setData(ViewHolder holder, int i) {
+        holder.tvMessage.setText(messagesResponse.getData().get(i).getMessage());
+        String date = Utils.getDate(messagesResponse.getData().get(i).getCreatedAt());
+        holder.tvUserAndDate.setText(messagesResponse.getData().get(i).getUser().getName()+" - "+
+                date);
+    }
+
+    private void styleMessage(ViewHolder holder, int i) {
+        if(currentUserId == messagesResponse.getData().get(i).getUserId()){
+            styleRightMessage(holder);
+        } else if(currentUserId != messagesResponse.getData().get(i).getId()){
+            styleLeftMessage(holder);
+        }
+    }
+
+    private void styleLeftMessage(ViewHolder holder) {
+        holder.tvUserAndDate.setGravity(Gravity.LEFT);
+        holder.llMessage.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.left_message_bg));
+    }
+
+    private void styleRightMessage(ViewHolder holder) {
+        holder.tvUserAndDate.setGravity(Gravity.RIGHT);
+        holder.llMessage.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.right_message_bg));
     }
 
     @Override
