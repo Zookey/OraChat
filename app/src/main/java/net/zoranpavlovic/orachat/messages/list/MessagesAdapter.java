@@ -31,6 +31,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tv_message_text) TextView tvMessage;
+        @BindView(R.id.tv_user_and_date) TextView tvUserAndDate;
 
         public ViewHolder(View v) {
             super(v);
@@ -54,6 +55,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     public void onBindViewHolder(final MessagesAdapter.ViewHolder holder, final int i) {
       if(messagesResponse != null){
           holder.tvMessage.setText(messagesResponse.getData().get(i).getMessage());
+          holder.tvUserAndDate.setText(messagesResponse.getData().get(i).getUser().getName()+" "+
+          messagesResponse.getData().get(i).getCreatedAt());
       }
     }
 
