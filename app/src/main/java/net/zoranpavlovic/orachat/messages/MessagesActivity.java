@@ -2,6 +2,8 @@ package net.zoranpavlovic.orachat.messages;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -14,6 +16,7 @@ import net.zoranpavlovic.orachat.messages.create.model.CreateChatMessageResponse
 import net.zoranpavlovic.orachat.messages.list.ListChatMessagesModule;
 import net.zoranpavlovic.orachat.messages.list.ListChatMessagesPresenter;
 import net.zoranpavlovic.orachat.messages.list.ListChatMessagesView;
+import net.zoranpavlovic.orachat.messages.list.MessagesAdapter;
 import net.zoranpavlovic.orachat.messages.list.models.MessagesResponse;
 
 import javax.inject.Inject;
@@ -26,9 +29,12 @@ public class MessagesActivity extends AppCompatActivity implements ListChatMessa
     private int id;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.rv_messages) RecyclerView rvMessages;
 
     @Inject
     ListChatMessagesPresenter listMessagesPresenter;
+
+    private MessagesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,10 @@ public class MessagesActivity extends AppCompatActivity implements ListChatMessa
 
     @Override
     public void onChatMessagesLoaded(MessagesResponse response) {
+        adapter = new MessagesAdapter(this, response);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvMessages.setLayoutManager(linearLayoutManager);
+        rvMessages.setAdapter(adapter);
     }
 
     @Override
