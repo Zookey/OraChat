@@ -23,13 +23,17 @@ import net.zoranpavlovic.orachat.chats.list.ListChatsPresenter;
 import net.zoranpavlovic.orachat.chats.list.ListChatsView;
 import net.zoranpavlovic.orachat.chats.list.models.ChatsResponse;
 import net.zoranpavlovic.orachat.core.App;
+import net.zoranpavlovic.orachat.core.EndlessRecyclerViewScrollListener;
 import net.zoranpavlovic.orachat.core.di.component.AppComponent;
+import net.zoranpavlovic.orachat.messages.list.models.MessagesResponse;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.R.attr.id;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +46,7 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
     private ListChatsAdapter adapter;
 
     @Inject CreateChatPresenter createChatPresenter;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     public ChatsFragment() {
         // Required empty public constructor
@@ -63,7 +68,7 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
                 .build()
                 .inject(this);
 
-        listChatsPresenter.getChats("null", 1, 50);
+        listChatsPresenter.getChats("", 1, 50);
 
         return v;
     }
@@ -79,6 +84,19 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rvChats.setLayoutManager(linearLayoutManager);
         rvChats.setAdapter(adapter);
+        endlessScrolListener(chatsResponse, linearLayoutManager);
+
+    }
+
+    private void endlessScrolListener(final ChatsResponse response, final LinearLayoutManager linearLayoutManager) {
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                if(response.getMeta().getPagination().getCurrentPage()+1 < response.getMeta().getPagination().getPageCount()) {
+                    listChatsPresenter.getChats("", response.getMeta().getPagination().getCurrentPage() + 1, 50);
+                }
+            }
+        };
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.core.App;
 import net.zoranpavlovic.orachat.core.Constants;
+import net.zoranpavlovic.orachat.core.EndlessRecyclerViewScrollListener;
 import net.zoranpavlovic.orachat.messages.create.CreateChatMessageModule;
 import net.zoranpavlovic.orachat.messages.create.CreateChatMessagePresenter;
 import net.zoranpavlovic.orachat.messages.create.CreateChatMessageView;
@@ -41,6 +43,7 @@ public class MessagesActivity extends AppCompatActivity implements ListChatMessa
     @Inject CreateChatMessagePresenter createChatMessagePresenter;
 
     private MessagesAdapter adapter;
+    private  EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +101,25 @@ public class MessagesActivity extends AppCompatActivity implements ListChatMessa
     }
 
     @Override
-    public void onChatMessagesLoaded(MessagesResponse response) {
+    public void onChatMessagesLoaded(final MessagesResponse response) {
         adapter = new MessagesAdapter(this, response);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvMessages.setLayoutManager(linearLayoutManager);
         rvMessages.setAdapter(adapter);
+        endlessScrolListener(response, linearLayoutManager);
+        rvMessages.addOnScrollListener(scrollListener);
+
+    }
+
+    private void endlessScrolListener(final MessagesResponse response, final LinearLayoutManager linearLayoutManager) {
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                if(response.getMeta().getPagination().getCurrentPage()+1 < response.getMeta().getPagination().getPageCount()) {
+                    listMessagesPresenter.getMessagesForChat(id, response.getMeta().getPagination().getCurrentPage() + 1, 50);
+                }
+            }
+        };
     }
 
     @Override
