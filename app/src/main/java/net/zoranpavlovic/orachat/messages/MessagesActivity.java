@@ -6,11 +6,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import net.zoranpavlovic.orachat.R;
 import net.zoranpavlovic.orachat.core.App;
 import net.zoranpavlovic.orachat.messages.create.CreateChatMessageModule;
+import net.zoranpavlovic.orachat.messages.create.CreateChatMessagePresenter;
 import net.zoranpavlovic.orachat.messages.create.CreateChatMessageView;
 import net.zoranpavlovic.orachat.messages.create.model.CreateChatMessageResponse;
 import net.zoranpavlovic.orachat.messages.list.ListChatMessagesModule;
@@ -23,6 +25,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MessagesActivity extends AppCompatActivity implements ListChatMessagesView, CreateChatMessageView {
 
@@ -30,9 +33,10 @@ public class MessagesActivity extends AppCompatActivity implements ListChatMessa
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.rv_messages) RecyclerView rvMessages;
+    @BindView(R.id.et_message) EditText etMessage;
 
-    @Inject
-    ListChatMessagesPresenter listMessagesPresenter;
+    @Inject ListChatMessagesPresenter listMessagesPresenter;
+    @Inject CreateChatMessagePresenter createChatMessagePresenter;
 
     private MessagesAdapter adapter;
 
@@ -76,6 +80,19 @@ public class MessagesActivity extends AppCompatActivity implements ListChatMessa
         }
     }
 
+    @OnClick(R.id.btn_message_send)
+    void sendMessageClick(){
+        if(!getMessage().isEmpty()){
+            createChatMessagePresenter.createMessage(id, getMessage());
+        } else{
+            Toast.makeText(this, R.string.empty_message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getMessage(){
+        return etMessage.getText().toString();
+    }
+
     @Override
     public void onChatMessagesLoaded(MessagesResponse response) {
         adapter = new MessagesAdapter(this, response);
@@ -91,12 +108,12 @@ public class MessagesActivity extends AppCompatActivity implements ListChatMessa
 
     @Override
     public void onChatMessageCreateSuccess(CreateChatMessageResponse body) {
-        
+        Toast.makeText(this, "Message sent!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onChatMessageCreateError(String error) {
-
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
