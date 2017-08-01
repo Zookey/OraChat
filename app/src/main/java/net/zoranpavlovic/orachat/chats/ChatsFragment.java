@@ -127,6 +127,11 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.chats_menu, menu);
+        initSearchView(menu);
+        searchListener();
+    }
+
+    private void initSearchView(Menu menu) {
         SearchManager searchManager =
                 (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchView =
@@ -136,7 +141,9 @@ public class ChatsFragment extends Fragment implements ListChatsView, CreateChat
                 searchManager.getSearchableInfo(getActivity().getComponentName()));
 
         searchView.setQueryHint(getString(R.string.action_search));
+    }
 
+    private void searchListener() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
