@@ -22,7 +22,7 @@ public class ListChatMessagesRepository {
         this.retrofit = retrofit;
     }
 
-    public Flowable<Response<MessagesResponse>> getMessagesForChat(int id, int page, int limit) {
+    public Flowable<MessagesResponse> getMessagesForChat(int id, int page, int limit) {
         return retrofit.create(MessagesService.class).getMessagesForChat(id, page, limit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());

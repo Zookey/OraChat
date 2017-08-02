@@ -19,7 +19,7 @@ import retrofit2.http.Query;
 public interface MessagesService {
 
     @GET("chats/{id}/chat_messages")
-    Flowable<Response<MessagesResponse>> getMessagesForChat(@Query("id") int id, @Query("page") int page, @Query("limit") int limit);
+    Flowable<MessagesResponse> getMessagesForChat(@Query("id") int id, @Query("page") int page, @Query("limit") int limit);
 
     @FormUrlEncoded
     @POST("chats/{id}/chat_messages")

@@ -45,12 +45,11 @@ public class ListChatMessagesPresenterImpl implements ListChatMessagesPresenter 
     @Override
     public void getMessagesForChat(int id, int page, int limit) {
         DisposableSubscriber disposableSubscriber = repository.getMessagesForChat(id, page, limit)
-                .subscribeWith(new DisposableSubscriber<Response<MessagesResponse>>() {
+                .subscribeWith(new DisposableSubscriber<MessagesResponse>() {
                     @Override
-                    public void onNext(Response<MessagesResponse> response) {
+                    public void onNext(MessagesResponse response) {
                         if(view != null){
-                            view.onChatMessagesLoaded(response.body());
-                            Log.d("TAG", response.headers().toString());
+                            view.onChatMessagesLoaded(response);
                         }
                     }
 
