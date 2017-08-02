@@ -20,13 +20,13 @@ import retrofit2.Retrofit;
 
 public class GetCurrentUserPresenterImpl implements GetCurrentUserPresenter {
 
-    private Retrofit retrofit;
+    private GetCurrentUserRepository repository;
     private GetCurrentUserView view;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public GetCurrentUserPresenterImpl(Retrofit retrofit, GetCurrentUserView view){
-        this.retrofit = retrofit;
+    public GetCurrentUserPresenterImpl(GetCurrentUserRepository repository, GetCurrentUserView view){
+        this.repository = repository;
         this.view = view;
     }
 
@@ -40,9 +40,7 @@ public class GetCurrentUserPresenterImpl implements GetCurrentUserPresenter {
 
     @Override
     public void getCurrentUser() {
-        compositeDisposable.add(retrofit.create(AccountService.class).getCurrentUser()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+        DisposableSubscriber disposableSubscriber = repository.getCurrentUser()
                 .subscribeWith(new DisposableSubscriber<Response<AccountResponse>>() {
                     @Override
                     public void onNext(Response<AccountResponse> response) {
@@ -62,6 +60,7 @@ public class GetCurrentUserPresenterImpl implements GetCurrentUserPresenter {
                     @Override
                     public void onComplete() {
                     }
-                }));
+                });
+        compositeDisposable.add(disposableSubscriber);
     }
 }
