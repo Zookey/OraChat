@@ -21,13 +21,13 @@ import retrofit2.Retrofit;
 
 public class LogoutAccountPresenterImpl implements LogoutAccountPresenter {
 
-    private Retrofit retrofit;
+    private LogoutRepository repository;
     private LogoutAccountView view;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public LogoutAccountPresenterImpl(Retrofit retrofit, LogoutAccountView view){
-        this.retrofit = retrofit;
+    public LogoutAccountPresenterImpl(LogoutRepository repository, LogoutAccountView view){
+        this.repository = repository;
         this.view = view;
     }
 
@@ -41,9 +41,7 @@ public class LogoutAccountPresenterImpl implements LogoutAccountPresenter {
 
     @Override
     public void logout() {
-        compositeDisposable.add(retrofit.create(AccountService.class).logout()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+        DisposableSubscriber disposableSubscriber = repository.logout()
                 .subscribeWith(new DisposableSubscriber<ResponseBody>() {
                     @Override
                     public void onNext(ResponseBody response) {
@@ -65,6 +63,8 @@ public class LogoutAccountPresenterImpl implements LogoutAccountPresenter {
                             view.onLogoutSuccess();
                         }
                     }
-                }));
+                });
+
+        compositeDisposable.add(disposableSubscriber);
     }
 }

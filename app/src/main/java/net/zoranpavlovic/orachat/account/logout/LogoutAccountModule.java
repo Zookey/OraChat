@@ -5,6 +5,7 @@ import net.zoranpavlovic.orachat.core.di.FragmentScoped;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.Retrofit;
 
 /**
  * Created by osx on 29/07/2017.
@@ -17,6 +18,13 @@ public class LogoutAccountModule {
 
     public LogoutAccountModule(LogoutAccountView view){
         this.view = view;
+    }
+
+
+    @Provides
+    @FragmentScoped
+    LogoutRepository providesRepository(Retrofit retrofit){
+        return new LogoutRepository(retrofit);
     }
 
     @Provides

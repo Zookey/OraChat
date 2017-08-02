@@ -5,6 +5,7 @@ import net.zoranpavlovic.orachat.core.di.FragmentScoped;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.Retrofit;
 
 /**
  * Created by osx on 30/07/2017.
@@ -17,6 +18,12 @@ public class UpdateCurrentUserModule {
 
     public UpdateCurrentUserModule(UpdateCurrentUserView view){
         this.view = view;
+    }
+
+    @FragmentScoped
+    @Provides
+    UpdateCurrentUserRepository providesRepository(Retrofit retrofit){
+        return new UpdateCurrentUserRepository(retrofit);
     }
 
     @FragmentScoped

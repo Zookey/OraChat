@@ -20,13 +20,13 @@ import retrofit2.Retrofit;
 
 public class UpdateCurrentUserPresenterImpl implements UpdateCurrentUserPresenter {
 
-    private Retrofit retrofit;
+    private UpdateCurrentUserRepository repository;
     private UpdateCurrentUserView view;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public UpdateCurrentUserPresenterImpl(Retrofit retrofit, UpdateCurrentUserView view){
-        this.retrofit = retrofit;
+    public UpdateCurrentUserPresenterImpl(UpdateCurrentUserRepository repository, UpdateCurrentUserView view){
+        this.repository = repository;
         this.view = view;
     }
 
@@ -40,9 +40,7 @@ public class UpdateCurrentUserPresenterImpl implements UpdateCurrentUserPresente
 
     @Override
     public void updateCurrentUser(String name, String email, String password, String confirm) {
-        compositeDisposable.add(retrofit.create(AccountService.class).login(email, password)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+        DisposableSubscriber disposableSubscriber = repository.updateCurrentUser(name, email, password, confirm)
                 .subscribeWith(new DisposableSubscriber<Response<AccountResponse>>() {
                     @Override
                     public void onNext(Response<AccountResponse> response) {
@@ -62,6 +60,8 @@ public class UpdateCurrentUserPresenterImpl implements UpdateCurrentUserPresente
                     @Override
                     public void onComplete() {
                     }
-                }));
+                });
+
+        compositeDisposable.add(disposableSubscriber);
     }
 }
