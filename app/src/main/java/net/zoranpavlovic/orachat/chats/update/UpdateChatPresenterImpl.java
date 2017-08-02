@@ -21,13 +21,13 @@ import retrofit2.Retrofit;
 
 public class UpdateChatPresenterImpl implements UpdateChatPresenter {
 
-    private Retrofit retrofit;
+    private UpdateChatRepository repository;
     private UpdateChatView view;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public UpdateChatPresenterImpl(Retrofit retrofit, UpdateChatView view){
-        this.retrofit = retrofit;
+    public UpdateChatPresenterImpl(UpdateChatRepository repository, UpdateChatView view){
+        this.repository = repository;
         this.view = view;
     }
 
@@ -41,9 +41,7 @@ public class UpdateChatPresenterImpl implements UpdateChatPresenter {
 
     @Override
     public void updateChat(int id) {
-        compositeDisposable.add(retrofit.create(ChatsService.class).updateChat(id)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+        DisposableSubscriber disposableSubscriber = repository.updateChat(id)
                 .subscribeWith(new DisposableSubscriber<Response<CreateChatResponse>>() {
                     @Override
                     public void onNext(Response<CreateChatResponse> response) {
@@ -63,6 +61,8 @@ public class UpdateChatPresenterImpl implements UpdateChatPresenter {
                     @Override
                     public void onComplete() {
                     }
-                }));
+                });
+
+        compositeDisposable.add(disposableSubscriber);
     }
 }

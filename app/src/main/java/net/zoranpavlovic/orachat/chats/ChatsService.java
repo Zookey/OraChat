@@ -19,7 +19,7 @@ import retrofit2.http.Query;
 public interface ChatsService {
 
     @GET("chats")
-    Flowable<Response<ChatsResponse>> getChats(@Query("name") String name, @Query("page") int page, @Query("limit") int limit);
+    Flowable<ChatsResponse> getChats(@Query("name") String name, @Query("page") int page, @Query("limit") int limit);
 
     @FormUrlEncoded
     @POST("chats")

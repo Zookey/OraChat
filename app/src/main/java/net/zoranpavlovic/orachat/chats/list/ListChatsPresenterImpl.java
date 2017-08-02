@@ -22,13 +22,13 @@ import retrofit2.Retrofit;
 
 public class ListChatsPresenterImpl implements ListChatsPresenter {
 
-    private Retrofit retrofit;
+    private ListChatsRepository repository;
     private ListChatsView view;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public ListChatsPresenterImpl(Retrofit retrofit, ListChatsView view){
-        this.retrofit = retrofit;
+    public ListChatsPresenterImpl(ListChatsRepository repository, ListChatsView view){
+        this.repository = repository;
         this.view = view;
     }
 
@@ -42,15 +42,12 @@ public class ListChatsPresenterImpl implements ListChatsPresenter {
 
     @Override
     public void getChats(String name, int page, int limit) {
-        compositeDisposable.add(retrofit.create(ChatsService.class).getChats(name, page, limit)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribeWith(new DisposableSubscriber<Response<ChatsResponse>>() {
+        DisposableSubscriber disposableSubscriber = repository.getChats(name, page, limit)
+                .subscribeWith(new DisposableSubscriber<ChatsResponse>() {
                     @Override
-                    public void onNext(Response<ChatsResponse> response) {
+                    public void onNext(ChatsResponse response) {
                         if(view != null){
-                            view.onChatsLoaded(response.body());
-                            Log.d("TAG", response.headers().toString());
+                            view.onChatsLoaded(response);
                         }
                     }
 
@@ -64,6 +61,7 @@ public class ListChatsPresenterImpl implements ListChatsPresenter {
                     @Override
                     public void onComplete() {
                     }
-                }));
+                });
+        compositeDisposable.add(disposableSubscriber);
     }
 }

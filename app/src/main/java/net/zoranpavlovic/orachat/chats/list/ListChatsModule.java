@@ -4,6 +4,7 @@ import net.zoranpavlovic.orachat.core.di.FragmentScoped;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.Retrofit;
 
 /**
  * Created by osx on 30/07/2017.
@@ -15,6 +16,12 @@ public class ListChatsModule {
 
     public ListChatsModule(ListChatsView view){
         this.view = view;
+    }
+
+    @Provides
+    @FragmentScoped
+    public ListChatsRepository providesRepository(Retrofit retrofit){
+        return new ListChatsRepository(retrofit);
     }
 
     @Provides
