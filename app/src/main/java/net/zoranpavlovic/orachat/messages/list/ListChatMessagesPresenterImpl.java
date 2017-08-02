@@ -24,13 +24,13 @@ import retrofit2.Retrofit;
 
 public class ListChatMessagesPresenterImpl implements ListChatMessagesPresenter {
 
-    private Retrofit retrofit;
+    private ListChatMessagesRepository repository;
     private ListChatMessagesView view;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public ListChatMessagesPresenterImpl(Retrofit retrofit, ListChatMessagesView view){
-        this.retrofit = retrofit;
+    public ListChatMessagesPresenterImpl(ListChatMessagesRepository repository, ListChatMessagesView view){
+        this.repository = repository;
         this.view = view;
     }
 
@@ -44,9 +44,7 @@ public class ListChatMessagesPresenterImpl implements ListChatMessagesPresenter 
 
     @Override
     public void getMessagesForChat(int id, int page, int limit) {
-        compositeDisposable.add(retrofit.create(MessagesService.class).getMessagesForChat(id, page, limit)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+        DisposableSubscriber disposableSubscriber = repository.getMessagesForChat(id, page, limit)
                 .subscribeWith(new DisposableSubscriber<Response<MessagesResponse>>() {
                     @Override
                     public void onNext(Response<MessagesResponse> response) {
@@ -66,6 +64,7 @@ public class ListChatMessagesPresenterImpl implements ListChatMessagesPresenter 
                     @Override
                     public void onComplete() {
                     }
-                }));
+                });
+        compositeDisposable.add(disposableSubscriber);
     }
 }

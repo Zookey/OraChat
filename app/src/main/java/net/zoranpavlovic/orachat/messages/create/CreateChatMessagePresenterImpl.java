@@ -21,13 +21,13 @@ import retrofit2.Retrofit;
 
 public class CreateChatMessagePresenterImpl implements CreateChatMessagePresenter {
 
-    private Retrofit retrofit;
+    private CreateChatMessageRepository repository;
     private CreateChatMessageView view;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public CreateChatMessagePresenterImpl(Retrofit retrofit, CreateChatMessageView view){
-        this.retrofit = retrofit;
+    public CreateChatMessagePresenterImpl(CreateChatMessageRepository repository, CreateChatMessageView view){
+        this.repository = repository;
         this.view = view;
     }
 
@@ -41,9 +41,7 @@ public class CreateChatMessagePresenterImpl implements CreateChatMessagePresente
 
     @Override
     public void createMessage(int id, String message) {
-        compositeDisposable.add(retrofit.create(MessagesService.class).createMessage(id, message)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+        DisposableSubscriber disposableSubscriber = repository.createMessage(id, message)
                 .subscribeWith(new DisposableSubscriber<Response<CreateChatMessageResponse>>() {
                     @Override
                     public void onNext(Response<CreateChatMessageResponse> response) {
@@ -63,6 +61,7 @@ public class CreateChatMessagePresenterImpl implements CreateChatMessagePresente
                     @Override
                     public void onComplete() {
                     }
-                }));
+                });
+        compositeDisposable.add(disposableSubscriber);
     }
 }
