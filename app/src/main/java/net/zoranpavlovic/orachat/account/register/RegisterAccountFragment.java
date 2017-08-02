@@ -58,22 +58,24 @@ public class RegisterAccountFragment extends Fragment implements RegisterAccount
     }
 
     private void initDagger() {
+        sharedPreferences = ((App) getActivity().getApplicationContext()).getAppComponent().getSharedPreferences();
+
+
         DaggerRegisterAccountComponent.builder()
                 .appComponent(((App) getActivity().getApplicationContext()).getAppComponent())
-                .registerAccountModule(new RegisterAccountModule(this))
+                .registerAccountModule(new RegisterAccountModule(this, sharedPreferences))
                 .build()
                 .inject(this);
 
-        sharedPreferences = ((App) getActivity().getApplicationContext()).getAppComponent().getSharedPreferences();
     }
 
     @OnClick(R.id.btn_register)
     void registerAccountClick(){
-        if(validate()) {
+       // if(validate()) {
             registerPresenter.register(getName(), getEmail(), getPassword(), getConfirm());
-        } else{
-            Toast.makeText(getActivity(), "Not valid information for account!", Toast.LENGTH_SHORT).show();
-        }
+       // } else{
+            //Toast.makeText(getActivity(), "Not valid information for account!", Toast.LENGTH_SHORT).show();
+        //}
     }
 
     private boolean validate(){
@@ -100,26 +102,13 @@ public class RegisterAccountFragment extends Fragment implements RegisterAccount
     }
 
     @Override
-    public void onRegisterAccountSuccess(Response<AccountResponse> accountResponse) {
-        saveToken(accountResponse);
-        saveUser(accountResponse);
+    public void onRegisterAccountSuccess(AccountResponse accountResponse) {
         openMainScreen();
-    }
-
-    private void saveUser(Response<AccountResponse> accountResponse) {
-        int id = accountResponse.body().getData().getId();
-        sharedPreferences.edit().putInt(Constants.USER_ID, id).apply();
     }
 
     @Override
     public void onRegisterAccountError(String error) {
         Log.d("TAG", error);
-    }
-
-    private void saveToken(Response<AccountResponse> accountResponse) {
-        Headers headers = accountResponse.headers();
-        String token = headers.get(Constants.AUTHORIZATION);
-        sharedPreferences.edit().putString(Constants.AUTHORIZATION, token).apply();
     }
 
     private void openMainScreen() {

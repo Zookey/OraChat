@@ -8,7 +8,7 @@ import retrofit2.Response;
 
 public interface RegisterAccountView {
 
-    void onRegisterAccountSuccess(Response<AccountResponse> accountResponse);
+    void onRegisterAccountSuccess(AccountResponse accountResponse);
 
     void onRegisterAccountError(String error);
 }

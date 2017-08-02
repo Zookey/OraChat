@@ -21,26 +21,24 @@ import retrofit2.Retrofit;
 public class RegisterAccountPresenterImpl implements RegisterAccountPresenter{
 
     private RegisterAccountView view;
-    private Retrofit retrofit;
+    private RegisterRepository registerRepository;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public RegisterAccountPresenterImpl(Retrofit retrofit, RegisterAccountView view){
-        this.retrofit = retrofit;
+    public RegisterAccountPresenterImpl(RegisterRepository registerRepository, RegisterAccountView view){
+        this.registerRepository = registerRepository;
         this.view = view;
     }
 
     @Override
     public void register(String name, String email, String password, String confirm) {
-        compositeDisposable.add(retrofit.create(AccountService.class).register(name, email, password, confirm)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribeWith(new DisposableSubscriber<Response<AccountResponse>>() {
+        DisposableSubscriber<AccountResponse> disposable =
+                registerRepository.register(name, email, password, confirm)
+                .subscribeWith(new DisposableSubscriber<AccountResponse>() {
                     @Override
-                    public void onNext(Response<AccountResponse> response) {
+                    public void onNext(AccountResponse response) {
                         if(view != null){
                             view.onRegisterAccountSuccess(response);
-                            Log.d("TAG", response.headers().toString());
                         }
                     }
 
@@ -54,7 +52,9 @@ public class RegisterAccountPresenterImpl implements RegisterAccountPresenter{
                     @Override
                     public void onComplete() {
                     }
-                }));
+                });
+
+        compositeDisposable.add(disposable);
     }
 
     @Override

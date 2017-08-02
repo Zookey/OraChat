@@ -54,13 +54,15 @@ public class LoginAccountFragment extends Fragment implements LoginAccountView {
     }
 
     private void initDagger() {
+
+        sharedPreferences = ((App) getActivity().getApplicationContext()).getAppComponent().getSharedPreferences();
+
         DaggerLoginAccountComponent.builder()
                 .appComponent(((App) getActivity().getApplicationContext()).getAppComponent())
-                .loginAccountModule(new LoginAccountModule(this))
+                .loginAccountModule(new LoginAccountModule(this, sharedPreferences))
                 .build()
                 .inject(this);
 
-        sharedPreferences = ((App) getActivity().getApplicationContext()).getAppComponent().getSharedPreferences();
     }
 
     @OnClick(R.id.btn_login)
@@ -77,27 +79,14 @@ public class LoginAccountFragment extends Fragment implements LoginAccountView {
     }
 
     @Override
-    public void onLoginSuccess(Response<AccountResponse> accountResponse) {
-        saveToken(accountResponse);
+    public void onLoginSuccess(AccountResponse accountResponse) {
         openMainScreen();
-        saveUser(accountResponse);
-    }
-
-    private void saveUser(Response<AccountResponse> accountResponse) {
-        int id = accountResponse.body().getData().getId();
-        sharedPreferences.edit().putInt(Constants.USER_ID, id).apply();
     }
 
     private void openMainScreen() {
         Intent i = new Intent(getActivity(), MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
-    }
-
-    private void saveToken(Response<AccountResponse> accountResponse) {
-        Headers headers = accountResponse.headers();
-        String token = headers.get(Constants.AUTHORIZATION);
-        sharedPreferences.edit().putString(Constants.AUTHORIZATION, token).apply();
     }
 
     @Override

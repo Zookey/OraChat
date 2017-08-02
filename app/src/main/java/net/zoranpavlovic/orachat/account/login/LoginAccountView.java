@@ -10,7 +10,8 @@ import retrofit2.Response;
 
 public interface LoginAccountView {
 
-    void onLoginSuccess(Response<AccountResponse> accountResponse);
+
+    void onLoginSuccess(AccountResponse accountResponse);
 
     void onLoginError(String error);
 }

@@ -1,59 +1,51 @@
 package net.zoranpavlovic.orachat.account.login;
 
-import android.util.Log;
-
-import net.zoranpavlovic.orachat.account.AccountService;
 import net.zoranpavlovic.orachat.account.register.AccountResponse;
 
 import javax.inject.Inject;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.DisposableSubscriber;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * Created by osx on 29/07/2017.
  */
 
-public class LoginAccountPresenterImpl  implements LoginAccountPresenter {
+public class LoginAccountPresenterImpl implements LoginAccountPresenter {
 
-    private Retrofit retrofit;
     private LoginAccountView view;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private LoginRepository loginRepository;
 
     @Inject
-    public LoginAccountPresenterImpl(Retrofit retrofit, LoginAccountView view){
-        this.retrofit = retrofit;
-        this.view  = view;
+    public LoginAccountPresenterImpl(LoginRepository loginRepository, LoginAccountView view) {
+        this.loginRepository = loginRepository;
+        this.view = view;
     }
 
     @Override
     public void onViewDestroy() {
         view = null;
-        if(compositeDisposable != null){
+        if (compositeDisposable != null) {
             compositeDisposable.clear();
         }
     }
 
     @Override
     public void login(String email, String password) {
-        compositeDisposable.add(retrofit.create(AccountService.class).login(email, password)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribeWith(new DisposableSubscriber<Response<AccountResponse>>() {
+        DisposableSubscriber<AccountResponse> disposable =
+                loginRepository.login(email, password)
+                .subscribeWith(new DisposableSubscriber<AccountResponse>() {
                     @Override
-                    public void onNext(Response<AccountResponse> response) {
-                        if(view != null){
+                    public void onNext(AccountResponse response) {
+                        if (view != null) {
                             view.onLoginSuccess(response);
                         }
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        if(view != null && t != null){
+                        if (view != null && t != null) {
                             view.onLoginError(t.getLocalizedMessage());
                         }
                     }
@@ -61,6 +53,8 @@ public class LoginAccountPresenterImpl  implements LoginAccountPresenter {
                     @Override
                     public void onComplete() {
                     }
-                }));
+                });
+
+        compositeDisposable.add(disposable);
     }
 }

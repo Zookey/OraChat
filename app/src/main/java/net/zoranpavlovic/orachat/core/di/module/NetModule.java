@@ -45,7 +45,7 @@ public class NetModule {
 
     @Provides
     @Singleton
-    Gson provideGson(){
+    public Gson provideGson(){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.IDENTITY);
         return gsonBuilder.create();
@@ -53,7 +53,7 @@ public class NetModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient(Cache cache, Application application) {
+    public OkHttpClient provideOkHttpClient(Cache cache, Application application) {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.addInterceptor(new HeaderInterceptor(application));
         client.cache(cache);
@@ -62,7 +62,7 @@ public class NetModule {
 
     @Provides
     @Singleton
-    Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
+    public Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
